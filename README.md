@@ -1,7 +1,8 @@
 IndigoFP
 ================================================================================
 
-* Author: Steve Phillips <http://stevephillips.me>
+* Author: Steve Phillips   
+  <http://stevephillips.me>
 * Version: alpha
 * License: GPL 3
 
@@ -25,7 +26,7 @@ elsewhere.
 It takes heavy inspiration from Drupal and Kohana in its overall structure, but 
 aims to reduce the overhead of Drupal and improve the flexibility of Kohana. The
 end result aims to be a minimalistic MVC that handles basic form validation, 
-user login, permissions GET/POST processing and other basic features, all 
+user login, permissions, GET/POST processing and other basic features, all 
 without forcing any design constraints on the end user.
 
 Goals
@@ -86,6 +87,8 @@ be closely monitored.
 
 Copyright
 --------------------------------------------------------------------------------
+Copyright (C) 2012 Steve Phillips
+
 This file is part of IndigoFP.
 
 IndigoFP is free software: you can redistribute it and/or modify it under the 
