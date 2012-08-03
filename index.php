@@ -27,7 +27,7 @@ try {
     // allow modules to modify request
     $request = Indigo\Event::Trigger('indigo request', $request);
 
-    $headers = array(
+    $response = array(
         'http_code' => '200 OK',
         'headers'   => array(),
     );
@@ -36,9 +36,9 @@ try {
         // tell router to dispatch to the controller
         $page = Indigo\Router::Dispatch($request);
     } catch (Indigo\Exception\Auth $e) {
-        $headers['http_code'] = '403 Forbidden';    
+        $response['http_code'] = '403 Forbidden';    
     } catch (Indigo\Exception\Router $e) {
-        $headers['http_code'] = '404 Not Found';
+        $response['http_code'] = '404 Not Found';
     }
 
     // initialize theme
@@ -48,21 +48,20 @@ try {
     
     // inject controller into the theme
     $theme->page = $page;
+    $response['content'] = $theme->render();
 
     // send out headers
-    $headers = Indigo\Event::Trigger('indigo headers', $headers);
-    header('HTTP/1.0 ' . $headers['http_code']);
-    foreach ($headers['headers'] as $name => $value) {
+    $response = Indigo\Event::Trigger('indigo response', $response);
+    header('HTTP/1.0 ' . $response['http_code']);
+    foreach ($response['headers'] as $name => $value) {
         header(sprintf(
             '%s: %s',
             $name,
             $value
         ));
     }
-
     // send out content
-    $content = $theme->render();
-    echo Indigo\Event::Trigger('indigo content', $content);
+    echo $response['content'];
 
     Indigo\Event::Trigger('indigo end');
     
