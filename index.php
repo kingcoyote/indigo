@@ -74,10 +74,14 @@ try {
     header('HTTP/1.0 500 Internal Server Error');
     header('Content-type: text/plain; charset=utf-8');
 
-    echo 'A non recoverable fatal error has been encountered:' . PHP_EOL;
-    echo '    ' . $e->getMessage() . PHP_EOL;
-    echo '    ' . $e->getFile() . ':' . $e->getLine();
-    
+    echo 'A non recoverable fatal error has been encountered.' . PHP_EOL;
+    echo str_pad(null, 80, '=') . PHP_EOL;
+    echo $e->getMessage() . PHP_EOL;
+    echo str_replace(dirname(__FILE__), null, $e->getFile()) . ':' . $e->getLine() . PHP_EOL;
+    echo str_pad(null, 80, '=') . PHP_EOL;
+    foreach ($e->getTrace() as $trace) {
+        echo str_replace(dirname(__FILE__), null, $trace['file']) . ':' . $trace['line'] . PHP_EOL;
+    }
     die;
 }
 
