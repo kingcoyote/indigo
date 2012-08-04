@@ -46,7 +46,7 @@ try {
 
     // initialize theme
     $theme = Indigo\View::factory(
-        Indigo\Config::Get('theme')
+        $config->get('theme')
     );
     
     // inject controller into the theme
