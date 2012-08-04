@@ -4,12 +4,12 @@ namespace Indigo;
 
 class Config
 {
-    public static function Init()
+    public static function factory($file)
     {
-        
+       return new Config($file);
     }
 
-    public static function Get($name)
+    public static function get($name)
     {
         return 'Indigo';
     }

@@ -4,8 +4,9 @@ namespace Indigo;
 
 class Db
 {
-    static public function Init()
+    static public function factory(Config $config)
     {
-
+        
     }
 }
+

@@ -4,13 +4,16 @@ namespace Indigo;
 
 class Router
 {
-    public static function ParseRequest()
+    public static function parseRequest()
     {
         $request = array();
         $request['protocol'] = array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
         $request['domain']   = $_SERVER['HTTP_HOST'];
-        $request['folder']   = dirname($_SERVER['SCRIPT_NAME']) == '/' ? null : dirname($_SERVER['SCRIPT_NAME'])) . '/';
+        $request['folder']   = (dirname($_SERVER['SCRIPT_NAME']) == '/' ? null : dirname($_SERVER['SCRIPT_NAME'])) . '/';
         $request['base_url'] = $request['protocol'] . $request['domain'] . $request['folder'];
+
+        $request['controller'] = 'default';
+        $request['page']       = 'index';
 
         // parse get / post
         //    loop through each one and make sure the character set matches the configured character set for the site
@@ -32,9 +35,9 @@ class Router
         return $request;
     }
 
-    public static function Dispatch($request)
+    public static function dispatch($request)
     {
-        return Indigo\Controller::factory($request['controller'])->{$request['page']}($request);
+        return Controller::factory($request['controller'])->{$request['page']}($request);
     }
 }
 

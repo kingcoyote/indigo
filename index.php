@@ -12,9 +12,12 @@ try {
     
     require_once(VENDOR_DIR . 'autoload.php');
 
-    // initialize the core of the system
-    Indigo\Config::Init();
-    Indigo\Db::Init();
+    // find out the site directory to work with
+    
+
+    // initialize the core of the system based on that site's config
+    $config = Indigo\Config::factory(INDIGO_DIR . 'config.php');
+    Indigo\Db::factory($config);
     Indigo\Event::Init();
     Indigo\File::init();
 

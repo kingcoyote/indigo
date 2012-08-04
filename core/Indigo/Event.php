@@ -6,12 +6,12 @@ class Event
 {
     private static $events = array();
 
-    public static function Init()
+    public static function init()
     {
 
     }
 
-    public static function Trigger($name, $args = false)
+    public static function trigger($name, $args = false)
     {
         if (!array_key_exists($name, self::$events)) {
             return $args;

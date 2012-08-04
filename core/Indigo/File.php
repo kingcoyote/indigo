@@ -4,7 +4,7 @@ namespace Indigo;
 
 class File
 {
-    public static function Init()
+    public static function init()
     {
 
     }
