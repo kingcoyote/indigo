@@ -13,13 +13,13 @@ try {
     require_once(VENDOR_DIR . 'autoload.php');
 
     // find out the site directory to work with
-    
+    $site = Indigo\Site::fetch();    
 
     // initialize the core of the system based on that site's config
-    $config = Indigo\Config::factory(INDIGO_DIR . 'config.php');
-    Indigo\Db::factory($config);
-    Indigo\Event::Init();
-    Indigo\File::init();
+    $config = Indigo\Config::factory($site);
+    Indigo\Db::init($config);
+    Indigo\File::init($site);
+    Indigo\Event::init();
 
     // earliest possible event
     Indigo\Event::Trigger('indigo start');
