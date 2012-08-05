@@ -6,14 +6,14 @@ class Site
 {
     public static function fetch()
     {
-        return 'indigofp';
+        return 'indigo';
     }
 
     public static function getConfigFiles($name) {
         return [
-            INDIGO_DIR . 'sites/indigofp/config.php',
+            INDIGO_DIR . 'core/config.php',
             INDIGO_DIR . 'sites/all/config.php',
-            INDIGO_DIR . 'core/config.php'
+            INDIGO_DIR . 'sites/indigo/config.php',
         ];
     }
 }
