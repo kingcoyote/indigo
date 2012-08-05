@@ -29,7 +29,8 @@ class Config
         return $config;
     }
 
-    public function set($name, $value) {
+    public function set($name, $value) 
+    {
         $this->config[$name] = $value;
     }
 
