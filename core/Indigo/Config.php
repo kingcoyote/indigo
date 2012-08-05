@@ -4,7 +4,7 @@ namespace Indigo;
 
 class Config
 {
-    private static $cache;
+    private static $cache = [];
 
     private $config = array();
 
