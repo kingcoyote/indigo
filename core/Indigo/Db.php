@@ -48,6 +48,7 @@ class Db
         if (array_key_exists($engine, self::$registered_engines)) {
             $engine = self::$registered_engines[$engine];
             $this->engine = new $engine($config);
+            $this->engine->connect();
         } else {
             throw new Exception\Db(
                 sprintf('Unknown database engine "%s"', $engine)
