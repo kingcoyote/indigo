@@ -17,6 +17,10 @@ try {
 
     // initialize the core of the system based on that site's config
     $config = Indigo\Config::factory($site);
+
+    // initialize MySQL in index. This will probably eventually go into a module
+    Indigo\Db::register_engine('mysql', '\\Indigo\\Db\\Mysql');
+
     Indigo\Db::init($config);
     Indigo\File::init($site);
     Indigo\Event::init();
