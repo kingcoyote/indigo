@@ -26,13 +26,13 @@ try {
     Indigo\Event::init();
 
     // earliest possible event
-    Indigo\Event::Trigger('indigo start');
+    Indigo\Event::trigger('indigo start');
 
     // parse request
-    $request = Indigo\Router::ParseRequest();
+    $request = Indigo\Router::parseRequest();
 
     // allow modules to modify request
-    $request = Indigo\Event::Trigger('indigo request', $request);
+    $request = Indigo\Event::trigger('indigo request', $request);
 
     $response = array(
         'http_code' => '200 OK',
@@ -41,7 +41,7 @@ try {
 
     try {
         // tell router to dispatch to the controller
-        $page = Indigo\Router::Dispatch($request);
+        $page = Indigo\Router::dispatch($request);
     } catch (Indigo\Exception\Auth $e) {
         $response['http_code'] = '403 Forbidden';    
     } catch (Indigo\Exception\Router $e) {
@@ -58,7 +58,7 @@ try {
     $response['content'] = $theme->render();
 
     // send out headers
-    $response = Indigo\Event::Trigger('indigo response', $response);
+    $response = Indigo\Event::trigger('indigo response', $response);
     header('HTTP/1.0 ' . $response['http_code']);
     foreach ($response['headers'] as $name => $value) {
         header(sprintf(
@@ -70,7 +70,8 @@ try {
     // send out content
     echo $response['content'];
 
-    Indigo\Event::Trigger('indigo end');
+    // latest possible event
+    Indigo\Event::trigger('indigo end');
     
 } catch (Exception $e) {
     // any exception that makes it to here is potentially so critical
