@@ -1,4 +1,6 @@
 <?php
 
-return [];
+return [
+    'charset' => 'utf8',
+];
 
