@@ -37,7 +37,7 @@ class Config
     public function get($name, $default = false)
     {
         if (array_key_exists($name, $this->config)) {
-            return $this->config['name'];
+            return $this->config[$name];
         } else {
             return $default;
         }
