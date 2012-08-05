@@ -48,14 +48,7 @@ try {
         $response['http_code'] = '404 Not Found';
     }
 
-    // initialize theme
-    $theme = Indigo\View::factory(
-        $config->get('theme')
-    );
-    
-    // inject controller into the theme
-    $theme->page = $page;
-    $response['content'] = $theme->render();
+    $response['content'] = $page;
 
     // send out headers
     $response = Indigo\Event::trigger('indigo response', $response);
