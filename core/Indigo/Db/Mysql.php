@@ -13,9 +13,8 @@ class Mysql implements EngineInterface
         $db = $config->get('db');
         
         $this->config['dsn']  = sprintf(
-            "mysql:dbname=%s:%s;host=%s",
+            "mysql:dbname=%s;host=%s",
             $db['name'],
-            $db['port'],
             $db['host']
         );
         $this->config['user'] = $db['user'];
