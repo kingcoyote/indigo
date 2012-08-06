@@ -8,10 +8,5 @@ class Controller
     {
         return new $name();
     }
-
-    public function index($request)
-    {
-        return 'Indigo';
-    }
 }
 
