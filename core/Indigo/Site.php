@@ -6,7 +6,17 @@ class Site
 {
     public static function fetch()
     {
-        return 'Nightlife';
+        $sites = require(INDIGO_DIR . 'sites/sites.php');
+
+        foreach ($sites as $host => $name) {
+            if ($host == $_SERVER['SERVER_NAME']) {
+                return $name;
+            }
+        }
+
+        throw new Exception\Router(
+            sprintf('Site "%s" has not been defined.', $_SERVER['HTTP_HOST'])
+        );
     }
 
     public static function getConfigFiles($name) {
