@@ -11,9 +11,28 @@ class Router
         $request['domain']   = $_SERVER['HTTP_HOST'];
         $request['folder']   = (dirname($_SERVER['SCRIPT_NAME']) == '/' ? null : dirname($_SERVER['SCRIPT_NAME'])) . '/';
         $request['base_url'] = $request['protocol'] . $request['domain'] . $request['folder'];
+        $request['query']    = substr($_SERVER['REQUEST_URI'], strlen($request['folder']));
 
-        $request['controller'] = 'default';
-        $request['page']       = 'index';
+        $request['controller'] = substr(
+            $request['query'], 
+            0, 
+            strstr($request['query'], '/') !== false ? strpos($request['query'], '/') : strlen($request['query'])
+        );
+
+        $request['query'] = '/' . $request['query'];
+        
+        $class = File::find('Controller', $request['controller']);
+        $request['controller'] = $class;
+
+        $routes = $class::$routes;
+        
+        foreach ($routes as $mask => $route) {
+            $mask_regex = self::parseMask($mask); 
+            if (preg_match($mask['regex'], $request['query'], $matches)) {
+                $request['route'] = $route;
+                $request['args'] = array_combine($mask['args'], $matches);
+            }
+        }
 
         // parse get / post
         //    loop through each one and make sure the character set matches the configured character set for the site
@@ -35,9 +54,23 @@ class Router
         return $request;
     }
 
+    private static function parseMask($mask) {
+        $mask = preg_replace_callback(
+            '/\{[a-zA-Z0-9]+\}/', 
+            function($match) {
+                var_dump($match);
+            }, 
+            $mask
+        );
+        return [
+            'regex' => '/' . $mask . '/',
+            'args' => []
+        ];
+    }
+
     public static function dispatch($request)
     {
-        return Controller::factory($request['controller'])->{$request['page']}($request);
+        return Controller::factory($request['controller'])->{$request['route']['page']}($request);
     }
 }
 

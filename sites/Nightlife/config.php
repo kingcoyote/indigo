@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'theme' => 'indigo'
+    'theme' => 'indigo',
+    'default_controller' => 'home'
 ];
 
