@@ -28,9 +28,9 @@ class Router
         
         foreach ($routes as $mask => $route) {
             $mask_regex = self::parseMask($mask); 
-            if (preg_match($mask['regex'], $request['query'], $matches)) {
+            if (preg_match($mask_regex['regex'], $request['query'], $matches)) {
                 $request['route'] = $route;
-                $request['args'] = array_combine($mask['args'], $matches);
+                $request['args'] = array_combine($mask_regex['args'], array_splice($matches, 1));
             }
         }
 
@@ -55,16 +55,18 @@ class Router
     }
 
     private static function parseMask($mask) {
+        $args = [];
         $mask = preg_replace_callback(
             '/\{[a-zA-Z0-9]+\}/', 
-            function($match) {
-                var_dump($match);
+            function($match) use (&$args) {
+                $args[] = substr($match[0], 1, strlen($match[0] - 2));
+                return '([a-zA-Z0-9-_]+)';
             }, 
             $mask
         );
         return [
-            'regex' => '/' . $mask . '/',
-            'args' => []
+            'regex' => '/^' . str_replace('/', '\\/', $mask) . '$/',
+            'args' => $args
         ];
     }
 
