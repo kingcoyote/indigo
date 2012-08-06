@@ -15,6 +15,10 @@ try {
     // find out the site directory to work with
     $site = Indigo\Site::fetch();    
 
+    $loader = new \Composer\Autoload\ClassLoader();
+    $loader->add($site, 'sites/');
+    $loader->register();
+
     // initialize the core of the system based on that site's config
     $config = Indigo\Config::factory($site);
 
