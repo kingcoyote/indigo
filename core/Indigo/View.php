@@ -2,14 +2,26 @@
 
 namespace Indigo;
 
-class View
+class ViewEngine
 {
-    public static function factory($name)
+    public static function init(Indigo\Config $config, $name='default')
     {
-        return new View($name);
+        self::$cache[$name] = new ViewEngine($config);
+        return self::$cache[$name];
     }
 
-    public function __construct($name)
+    public static function factory($name)
+    {
+        if (array_key_exists($name, self::$cache) {
+            return self::$cache[$name];
+        } else {
+            throw new Exception/View(
+                sprintf('View engine "%s" has not been initialized', $name);
+            );
+        }
+    }
+
+    public function __construct(Indigo\Config $config)
     {
 
     }
