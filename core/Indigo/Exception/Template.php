@@ -2,7 +2,7 @@
 
 namespace Indigo\Exception;
 
-class View extends \Exception
+class Template extends \Exception
 {
 
 }
