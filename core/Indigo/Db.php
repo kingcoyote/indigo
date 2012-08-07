@@ -20,7 +20,6 @@ class Db
                 sprintf('Engine type "%s" does not exist', $class)
             );
         } elseif (!in_array('Indigo\\Db\\EngineInterface', class_implements($class))) {
-            var_dump($class, class_implements($class));
             throw new Exception\Db(
                 sprintf('Engine type "%s" does not implment \\Indigo\\Db\\EngineInterface', $class)
             );
