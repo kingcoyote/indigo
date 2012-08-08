@@ -21,7 +21,8 @@ class Home extends Indigo\Controller
     public function index($request)
     {
         $view = Template::factory()->factory('test');
-        return 'Nightlife';
+        $view->foo = 'bar';
+        return $view->render();
     }
 
     public function main($request)

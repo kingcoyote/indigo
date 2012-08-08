@@ -1,15 +1,16 @@
 <?php
 
 namespace Indigo\Template;
+use Indigo\File;
 
 class TemplateView implements TemplateViewInterface
 {
     static private $globalVariables = [];
+    private $file;
 
     public function __construct($name)
     {
-        // use the Indigo::File system to locate a template file of that name
-        // initialize local variables
+        $this->file = File::find('template', $name);
     }
 
     public function __set($name, $value)
@@ -25,7 +26,7 @@ class TemplateView implements TemplateViewInterface
         extract($this->variables);
         require($this->file);
 
-        return ob_end_clean();
+        return ob_get_clean();
     }
 
     static public function setGlobal($name, $value)

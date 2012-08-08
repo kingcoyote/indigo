@@ -16,6 +16,6 @@ class TemplateEngine implements TemplateEngineInterface
 
     public function setGlobal($name, $value)
     {
-
+        TemplateView::setGlobal($name, $value);
     }
 }

@@ -15,6 +15,9 @@ class File
             case 'controller':
                 return '\\Nightlife\\Controller\\Home';
                 break;
+            case 'template':
+                return 'sites/Nightlife/template/' . $name . '.tpl.php';
+                break;
         }
     }
 }
