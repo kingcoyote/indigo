@@ -2,6 +2,7 @@
 
 namespace Nightlife\Controller;
 use Indigo;
+use Indigo\Template;
 
 class Home extends Indigo\Controller
 {
@@ -19,6 +20,7 @@ class Home extends Indigo\Controller
 
     public function index($request)
     {
+        $view = Template::factory()->factory('test');
         return 'Nightlife';
     }
 
