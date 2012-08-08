@@ -13,7 +13,7 @@ class Db
         return self::$cache[$name];
     }
 
-    static public function register_engine($name, $class)
+    static public function registerEngine($name, $class)
     {
         if (!class_exists($class)) {
             throw new Exception\Db(

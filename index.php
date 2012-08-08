@@ -23,7 +23,7 @@ try {
     $config = Indigo\Config::factory($site);
 
     // initialize MySQL in index. This will probably eventually go into a module
-    Indigo\Db::register_engine('mysql', '\\Indigo\\Db\\Mysql');
+    Indigo\Db::registerEngine('mysql', '\\Indigo\\Db\\Mysql');
     Indigo\Template::registerEngine('indigo', '\\Indigo\\Template\\TemplateEngine');
 
     Indigo\Template::init($config);
