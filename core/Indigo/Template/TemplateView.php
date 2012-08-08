@@ -1,8 +1,9 @@
+
 <?php
 
 namespace Indigo\Template;
 
-class Indigo implements TemplateInterface
+class TemplateView implements TemplateViewInterface
 {
     static private $globalVariables = [];
 

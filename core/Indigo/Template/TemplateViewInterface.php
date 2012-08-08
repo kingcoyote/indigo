@@ -1,8 +1,9 @@
+
 <?php
 
 namespace Indigo\Template;
 
-interface TemplateInterface
+interface TemplateViewInterface
 {
     public function __construct($name);
     public function __set($name, $value);
