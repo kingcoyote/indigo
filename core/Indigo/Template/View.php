@@ -12,6 +12,11 @@ class View implements ViewInterface
     public function __construct($name)
     {
         $this->file = File::find('template', $name);
+        if (!file_exists($this->file)) {
+            throw new Exception\Template(
+                sprintf('View file "%s" does not exist', $name)
+            );
+        }
     }
 
     public function __set($name, $value)
