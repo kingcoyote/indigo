@@ -28,6 +28,7 @@ try {
 
     Indigo\Template::factory('default', $config);
     Indigo\Db::init($config);
+    Indigo\Db::factory('default')->connect();
     Indigo\File::init($site);
     Indigo\Event::init();
 
