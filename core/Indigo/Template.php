@@ -22,14 +22,22 @@ class Template
         }
     }   
 
-    public static function factory($name='default', Config $config=null)
+    public static function init(Config $config, $name='default')
+    {
+        if (array_key_exists($config->get('template'), self::$registered_engines)) {
+            $templateEngine = self::$registered_engines[$config->get('template')];
+            self::$cache[$name] = new $templateEngine($config);
+        } else {
+            throw new Exception\Template(
+                sprintf('Template engine "%s" has not been registered', $config->get('template'))
+            );
+        }
+    }
+
+    public static function factory($name='default')
     {
         if (array_key_exists($name, self::$cache)) {
             return self::$cache[$name];
-        } elseif ($config !== null && array_key_exists($config->get('template'), self::$registered_engines)) {
-            $templateEngine = self::$registered_engines[$config->get('template')];
-            self::$cache[$name] = new $templateEngine($config);
-            return self::$cache;
         } else {
             throw new Exception\Template(
                 sprintf('Template "%s" has not been initialized', $name)

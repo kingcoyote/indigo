@@ -24,11 +24,12 @@ try {
 
     // initialize MySQL in index. This will probably eventually go into a module
     Indigo\Db::registerEngine('mysql', '\\Indigo\\Db\\Mysql');
-    Indigo\Template::registerEngine('default', '\\Indigo\\Template\\Engine');
-
-    Indigo\Template::factory('default', $config);
     Indigo\Db::init($config);
     Indigo\Db::factory('default')->connect();
+
+    Indigo\Template::registerEngine('default', '\\Indigo\\Template\\Engine');
+    Indigo\Template::init($config);
+
     Indigo\File::init($site);
     Indigo\Event::init();
 
