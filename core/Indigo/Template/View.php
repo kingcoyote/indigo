@@ -2,8 +2,9 @@
 
 namespace Indigo\Template;
 use Indigo\File;
+use Indigo\Exception;
 
-class TemplateView implements TemplateViewInterface
+class View implements ViewInterface
 {
     static private $globalVariables = [];
     private $file;

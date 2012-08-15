@@ -3,7 +3,7 @@
 namespace Indigo\Template;
 use Indigo\Config;
 
-interface TemplateEngineInterface
+interface EngineInterface
 {
     public function __construct(Config $config);
     public function factory($name);

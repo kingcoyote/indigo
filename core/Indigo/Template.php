@@ -13,9 +13,9 @@ class Template
             throw new Exception\Template(
                 sprintf('Engine type "%s" does not exist', $class)
             );
-        } elseif (!in_array('Indigo\\Template\\TemplateEngineInterface', class_implements($class))) {
+        } elseif (!in_array('Indigo\\Template\\EngineInterface', class_implements($class))) {
             throw new Exception\Db(
-                sprintf('Engine type "%s" does not implment \\Indigo\\Template\\TemplateEngineInterface', $class)
+                sprintf('Engine type "%s" does not implment \\Indigo\\Template\\EngineInterface', $class)
             );
         } else {
             self::$registered_engines[$name] = $class;

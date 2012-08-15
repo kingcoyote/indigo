@@ -2,7 +2,7 @@
 
 namespace Indigo\Template;
 
-interface TemplateViewInterface
+interface ViewInterface
 {
     public function __construct($name);
     public function __set($name, $value);
