@@ -1,7 +1,7 @@
 <?php
 
 namespace Twigdigo;
-use Indigo\Template;
+use Indigo\Template\ViewInterface;
 
 class View implements ViewInterface
 {
@@ -11,7 +11,7 @@ class View implements ViewInterface
         $this->vars = [];
     }
 
-    public function setLoader(Twig_Loader_Filesystem $loader)
+    public function setLoader(\Twig_Loader_Filesystem $loader)
     {
         $this->loader = $loader;
     }
@@ -23,7 +23,7 @@ class View implements ViewInterface
 
     public function render()
     {
-        $twig = new Twig_Environment(
+        $twig = new \Twig_Environment(
             $this->loader
         );
 
@@ -31,6 +31,11 @@ class View implements ViewInterface
             $this->file,
             $this->vars
         );
+    }
+
+    static public function setGlobal($name, $value)
+    {
+
     }
 }
 

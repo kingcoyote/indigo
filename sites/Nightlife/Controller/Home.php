@@ -20,7 +20,7 @@ class Home extends Indigo\Controller
 
     public function index($request)
     {
-        $view = Template::factory('Twigdigo')->factory('test');
+        $view = Template::factory()->factory('test.php');
         $view->foo = 'bar';
         return $view->render();
     }
