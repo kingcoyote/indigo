@@ -16,11 +16,19 @@ try {
     $site = Indigo\Site::fetch();    
 
     $loader = new \Composer\Autoload\ClassLoader();
-    $loader->add($site, 'sites/');
     $loader->register();
 
     // initialize the core of the system based on that site's config
     $config = Indigo\Config::factory($site);
+
+    foreach ($config->get('modules') as $module) {
+        $loader->add($module, 'modules/');
+        if (file_exists(INDIGO_DIR . 'modules/' . $module . '/init.php')) {
+            require_once(INDIGO_DIR . 'modules/' . $module . '/init.php');
+        }
+    }
+
+    $loader->add($site, 'sites/');
 
     // initialize MySQL in index. This will probably eventually go into a module
     Indigo\Db::registerEngine('mysql', '\\Indigo\\Db\\Mysql');
