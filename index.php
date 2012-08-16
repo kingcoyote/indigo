@@ -16,7 +16,6 @@ try {
     $site = Indigo\Site::fetch();    
 
     $loader = new \Composer\Autoload\ClassLoader();
-    $loader->register();
 
     // initialize the core of the system based on that site's config
     $config = Indigo\Config::factory($site);
@@ -29,6 +28,7 @@ try {
     }
 
     $loader->add($site, 'sites/');
+    $loader->register();
 
     // initialize MySQL in index. This will probably eventually go into a module
     Indigo\Db::registerEngine('mysql', '\\Indigo\\Db\\Mysql');
