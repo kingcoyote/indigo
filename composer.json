@@ -1,4 +1,7 @@
 {
+    "require" : {
+        "twig/twig" : "1.*"
+    },
     "autoload" : {
         "psr-0": {
             "Indigo" : "core/"

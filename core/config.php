@@ -2,6 +2,9 @@
 
 return [
     'charset' => 'utf8',
-    'template' => 'default'
+    'template' => 'twigdigo',
+    'modules' => [
+        'Twigdigo'
+    ]
 ];
 
