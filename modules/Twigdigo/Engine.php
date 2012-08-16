@@ -8,13 +8,21 @@ class Engine implements EngineInterface
 {
     public function __construct(Config $config)
     {
-        $this->loader = new \Twig_Loader_Filesystem('sites/Nightlife/template');
+        $this->loader = new \Twig_Loader_Filesystem(
+            'sites/Nightlife/template'
+        );
+        $this->environment = new \Twig_Environment(
+            $this->loader,
+            [
+                'compilation_cache' => INDIGO_DIR . 'cache/'
+            ]
+        );
     }
 
     public function factory($name)
     {
         $view = new View($name);
-        $view->setLoader($this->loader);
+        $view->setEnvironment($this->environment);
         return $view;
     }
 

@@ -5,15 +5,19 @@ use Indigo\Template\ViewInterface;
 
 class View implements ViewInterface
 {
+    private $file;
+    private $vars;
+    private $environment;
+
     public function __construct($name)
     {
         $this->file = $name;
         $this->vars = [];
     }
 
-    public function setLoader(\Twig_Loader_Filesystem $loader)
+    public function setEnvironment(\Twig_Environment $environment)
     {
-        $this->loader = $loader;
+        $this->environment = $environment;
     }
 
     public function __set($name, $value)
@@ -23,14 +27,8 @@ class View implements ViewInterface
 
     public function render()
     {
-        $twig = new \Twig_Environment(
-            $this->loader
-        );
-
-        return $twig->render(
-            $this->file,
-            $this->vars
-        );
+        $twig = $this->environment->loadTemplate($this->file);
+        return $twig->render($this->vars);
     }
 
     static public function setGlobal($name, $value)
