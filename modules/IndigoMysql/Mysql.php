@@ -1,14 +1,16 @@
 <?php
 
-namespace Indigo\Db;
-use Indigo;
+namespace IndigoMysql;
+use Indigo\Db\EngineInterface;
+use Indigo\Config;
+use Indigo\Exception;
 
 class Mysql implements EngineInterface
 {
     private $pdo;
     private $config = [];
 
-    public function __construct(Indigo\Config $config)
+    public function __construct(Config $config)
     {
         $db = $config->get('db');
         

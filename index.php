@@ -30,7 +30,6 @@ try {
     }
 
     // initialize MySQL in index. This will probably eventually go into a module
-    Indigo\Db::registerEngine('mysql', '\\Indigo\\Db\\Mysql');
     Indigo\Db::init($config);
     Indigo\Db::factory('default')->connect();
 
