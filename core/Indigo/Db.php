@@ -69,5 +69,10 @@ class Db
     {
         $this->engine->disconnect();
     }
+
+    public function createQuery()
+    {
+        return $this->engine->createQuery();
+    }
 }
 

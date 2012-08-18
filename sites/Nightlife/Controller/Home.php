@@ -23,6 +23,12 @@ class Home extends Indigo\Controller
         $view = Template::factory()->factory('twig.html');
         $view->foo = 'foo & stuff';
         $view->faz = 'bar & stuff';
+        
+        $query = Indigo\Db::factory()->createQuery();
+        $query->select('username')->from('users');
+
+        $view->data = $query->execute();
+
         return $view->render();
     }
 

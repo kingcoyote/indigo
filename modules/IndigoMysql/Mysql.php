@@ -9,6 +9,7 @@ class Mysql implements EngineInterface
 {
     private $pdo;
     private $config = [];
+    private $connected = false;
 
     public function __construct(Config $config)
     {
@@ -31,6 +32,7 @@ class Mysql implements EngineInterface
                 $this->config['user'],
                 $this->config['pass']
             );
+            $this->connected = true;
         } catch(PDOException $e) {
             throw new Exception\Db($e->getMessage(), $e->getCode, $e);
         }
@@ -38,7 +40,17 @@ class Mysql implements EngineInterface
 
     public function disconnect()
     {
+        unset($this->pdo);
+    }
 
+    public function createQuery()
+    {
+        if (!$this->connected) {
+            throw new Exception\Db('unable to create query - not connected to a database');
+        }
+
+        $query = new Query($this->pdo);
+        return $query;
     }
 }
 
