@@ -10,5 +10,7 @@ interface QueryInterface
     public function limit($start, $length);
     public function bind($vars);
     public function execute();
+
+    public function query($query, $args);
 }
 

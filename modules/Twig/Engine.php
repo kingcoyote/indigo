@@ -1,6 +1,7 @@
 <?php
 
-namespace Twigdigo;
+namespace Indigo\Module\Twig;
+
 use Indigo\Template\EngineInterface;
 use Indigo\Config;
 

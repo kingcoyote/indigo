@@ -1,6 +1,7 @@
 <?php
 
-namespace IndigoMysql;
+namespace Indigo\Module\Mysql;
+
 use Indigo\Db\QueryInterface;
 use Indigo\Exception;
 use PDO;
@@ -68,6 +69,11 @@ class Query implements QueryInterface
             implode(',', $this->tables)
         );
 
+        return $this->query($query, $this->vars);
+    }
+
+    public function query($query, $args)
+    {
         $statement = $this->pdo->prepare($query);
 
         if ($statement->execute($this->vars)) {
@@ -89,7 +95,6 @@ class Query implements QueryInterface
         }
         
         return $data;
-
     }
 }
 

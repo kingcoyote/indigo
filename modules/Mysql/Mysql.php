@@ -1,6 +1,7 @@
 <?php
 
-namespace IndigoMysql;
+namespace Indigo\Module\Mysql;
+
 use Indigo\Db\EngineInterface;
 use Indigo\Config;
 use Indigo\Exception;

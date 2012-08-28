@@ -1,6 +1,6 @@
 <?php
 
-namespace Indigo;
+namespace Indigo\Module\Seafoam;
 
 class Model
 {
