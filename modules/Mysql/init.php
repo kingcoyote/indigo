@@ -1,4 +1,4 @@
 <?php
 
-Indigo\Db::registerEngine('mysql', 'IndigoMysql\\Mysql');
+Indigo\Db::registerEngine('mysql', 'Mysql\\Mysql');
 

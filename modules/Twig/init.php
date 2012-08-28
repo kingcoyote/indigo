@@ -1,4 +1,4 @@
 <?php
 
-Indigo\Template::registerEngine('twig', 'Indigo\\Module\\Twig\\Engine');
+Indigo\Template::registerEngine('twig', 'Twig\\Engine');
 

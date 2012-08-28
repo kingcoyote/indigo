@@ -2,7 +2,7 @@
 
 return [
     'charset' => 'utf8',
-    'template' => 'twigdigo',
+    'template' => 'twig',
     'modules' => [
         'Twig',
         'Mysql',

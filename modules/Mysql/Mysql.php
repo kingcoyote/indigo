@@ -1,6 +1,6 @@
 <?php
 
-namespace Indigo\Module\Mysql;
+namespace Mysql;
 
 use Indigo\Db\EngineInterface;
 use Indigo\Config;

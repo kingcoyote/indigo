@@ -23,7 +23,7 @@ try {
     $config = Indigo\Config::factory($site);
 
     foreach ($config->get('modules') as $module) {
-        $loader->add('Indigo\\Module\\' . $module, 'modules/');
+        $loader->add($module, 'modules/');
         if (file_exists(INDIGO_DIR . 'modules/' . $module . '/init.php')) {
             require_once(INDIGO_DIR . 'modules/' . $module . '/init.php');
         }
