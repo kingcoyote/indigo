@@ -1,6 +1,6 @@
 <?php
 
-namespace Indigo\Module\Twig;
+namespace Twig;
 
 use Indigo\Template\ViewInterface;
 
