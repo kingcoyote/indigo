@@ -42,18 +42,18 @@ try {
     // earliest possible event
     Indigo\Event::trigger('indigo start');
 
-    // parse request
-    $request = Indigo\Router::parseRequest();
-
-    // allow modules to modify request
-    $request = Indigo\Event::trigger('indigo request', $request);
-
     $response = array(
         'http_code' => '200 OK',
         'headers'   => array(),
     );
 
     try {
+        // parse request
+        $request = Indigo\Router::parseRequest($config);
+
+        // allow modules to modify request
+        $request = Indigo\Event::trigger('indigo request', $request);
+
         // tell router to dispatch to the controller
         $page = Indigo\Router::dispatch($request);
     } catch (Indigo\Exception\Auth $e) {

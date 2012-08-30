@@ -72,7 +72,14 @@ class Router
 
     public static function dispatch($request)
     {
-        return Controller::factory($request['controller'])->{$request['route']['page']}($request);
+        $controller = Controller::factory($request['controller']);
+        $page = $request['route']['page'];
+
+        if (method_exists($controller, $page)) {
+            return $controller->$page($request);
+        } else {
+            throw new Exception\Router();
+        }
     }
 }
 

@@ -42,7 +42,7 @@ class File
                         return $namespace . '\\' . $name;
                     }
                 }
-                throw new Exception\Controller(
+                throw new Exception\Router(
                     sprintf('controller "%s" does not exist', $name)
                 );
                 break;
