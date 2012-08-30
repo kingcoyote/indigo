@@ -21,7 +21,7 @@ class Router
 
         $request['query'] = '/' . $request['query'];
         
-        $class = File::find('Controller', $request['controller']);
+        $class = File::factory()->find('controller', $request['controller']);
         $request['controller'] = $class;
 
         $routes = $class::$routes;
