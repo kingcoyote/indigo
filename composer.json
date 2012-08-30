@@ -1,6 +1,5 @@
 {
-    "name" : "kingcoyote/indigo",
-    "type" : "library",
+    "name" : "indigo/indigo",
     "description" : "Indigo PHP Framework",
     "homepage" : "http://github.com/kingcoyote/indigo",
     "license" : "GPL 3",
