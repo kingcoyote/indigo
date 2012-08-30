@@ -8,10 +8,8 @@ class Home extends Indigo\Controller
 {
     public static $routes = [
         '/' => [
-            'page' => 'index'
-        ],
-        '/home' => [
-            'alias' => '/'
+            'page' => 'index',
+            'alias' => ['/home']
         ],
         '/home/{id}' => [
             'page' => 'main'

@@ -4,7 +4,7 @@ namespace Indigo;
 
 class Router
 {
-    public static function parseRequest()
+    public static function parseRequest(Config $config)
     {
         $request = array();
         $request['protocol'] = array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
@@ -19,6 +19,10 @@ class Router
             strstr($request['query'], '/') !== false ? strpos($request['query'], '/') : strlen($request['query'])
         );
 
+        if ($request['controller'] == '') {
+            $request['controller'] = $config->get('default_controller');
+        }
+
         $request['query'] = '/' . $request['query'];
         
         $class = File::factory()->find('controller', $request['controller']);
@@ -27,29 +31,22 @@ class Router
         $routes = $class::$routes;
         
         foreach ($routes as $mask => $route) {
+            if (isset($route['alias'])) {
+                foreach ($route['alias'] as $alias) {
+                    $new_route = $route;
+                    unset($route['alias']);
+                    $routes[$alias] = $new_route;
+                }
+            }
+        }
+
+        foreach ($routes as $mask => $route) {
             $mask_regex = self::parseMask($mask); 
             if (preg_match($mask_regex['regex'], $request['query'], $matches)) {
                 $request['route'] = $route;
                 $request['args'] = array_combine($mask_regex['args'], array_splice($matches, 1));
             }
         }
-
-        // parse get / post
-        //    loop through each one and make sure the character set matches the configured character set for the site
-        //    can these possibly be exploitable?
-        // parse session / cookies
-        //    security. google it.
-        // parse files
-        //    security. google that again.
-
-        // find controller from query string
-        //     should be the first chunk. if there are no chunks, check config for default
-        // load controller's routes
-
-        // foreach controller route
-        //   if the query string matches the route mask
-        //     specify the request's controller and page
-        //     parse query into matchDict type thingie
 
         return $request;
     }
