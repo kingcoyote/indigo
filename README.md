@@ -1,4 +1,4 @@
-IndigoFP
+Indigo
 ================================================================================
 
 * Author: Steve Phillips   
@@ -16,7 +16,7 @@ any functionality that can be overridden to be overridden.
 About
 --------------------------------------------------------------------------------
 
-The IndigoFP framework is a concise, yet robust framework. It is the result of 
+The Indigo framework is a concise, yet robust framework. It is the result of 
 several self-made frameworks, with influence from Drupal and Kohana. I began 
 this project after building a basic, decent framework while overhauling an 
 existing code base. I liked where the system was going and wanted to separate it 
@@ -66,7 +66,7 @@ be closely monitored.
    multiple sites, each one with its own dependencies.
 6. Manage dependencies with composer, allowing the core and each site to 
    specify different versions of packages to be used, similar to Drupal's 
-   modules, sites/all/modules and sites/{site}/modules. Eventually, IndigoFP
+   modules, sites/all/modules and sites/{site}/modules. Eventually, Indigo
    could have its own Composer repository of modules.
 7. Force high security on sessions and form processing without the application 
    developer having to worry about anything, unless they want to.
@@ -89,17 +89,17 @@ Copyright
 --------------------------------------------------------------------------------
 Copyright (C) 2012 Steve Phillips
 
-This file is part of IndigoFP.
+This file is part of Indigo.
 
-IndigoFP is free software: you can redistribute it and/or modify it under the 
+Indigo is free software: you can redistribute it and/or modify it under the 
 terms of the GNU General Public License as published by the Free Software 
 Foundation, either version 3 of the License, or (at your option) any later 
 version.
 
-IndigoFP is distributed in the hope that it will be useful, but WITHOUT ANY 
+Indigo is distributed in the hope that it will be useful, but WITHOUT ANY 
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR 
 A PARTICULAR PURPOSE.  See the GNU General Public License for more details.  
 
 You should have received a copy of the GNU General Public License along with 
-IndigoFP.  If not, see <http://www.gnu.org/licenses/>.
+Indigo.  If not, see <http://www.gnu.org/licenses/>.
 
