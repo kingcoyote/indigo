@@ -2,3 +2,4 @@
 *.swo
 composer.lock
 composer.phar
+vendor/*
