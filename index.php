@@ -14,6 +14,7 @@ try {
 
     // find out the site directory to work with
     $site = Indigo\Site::fetch();    
+    Indigo\File::init($site);
 
     $loader = new \Composer\Autoload\ClassLoader();
     $loader->add($site, 'sites/');
@@ -23,7 +24,9 @@ try {
     $config = Indigo\Config::factory($site);
 
     foreach ($config->get('modules') as $module) {
-        $loader->add($module, 'modules/');
+
+        $loader->add($module, Indigo\File::factory()->find('module', $module));
+        
         if (file_exists(INDIGO_DIR . 'modules/' . $module . '/init.php')) {
             require_once(INDIGO_DIR . 'modules/' . $module . '/init.php');
         }
@@ -36,7 +39,6 @@ try {
     Indigo\Template::registerEngine('default', '\\Indigo\\Template\\Engine');
     Indigo\Template::init($config);
 
-    Indigo\File::init($site);
     Indigo\Event::init();
 
     // earliest possible event

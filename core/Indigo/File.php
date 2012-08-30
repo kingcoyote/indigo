@@ -27,6 +27,12 @@ class File
     public function __construct($site)
     {
         $this->site = $site;
+
+        $this->dirs = [
+            INDIGO_DIR . 'sites/' . $site . '/',
+            INDIGO_DIR . 'sites/all/',
+            INDIGO_DIR
+        ];
     }
 
     public function find($type, $name)
@@ -46,10 +52,33 @@ class File
                     sprintf('controller "%s" does not exist', $name)
                 );
                 break;
+            
             case 'template':
-                return 'sites/Nightlife/template/' . $name . '.tpl.php';
+                foreach ($this->dirs as $dir) {
+                    if (is_dir($dir . 'templates/' . $name . '.tpl.php')) {
+                        return $dir . 'templates/' . $name . '.tpl.php';
+                    }
+                }
+                break;
+
+            case 'module':
+                foreach ($this->dirs as $dir) {
+                    if (is_dir($dir . 'modules/' . $name)) {
+                        return $dir . 'modules/';
+                    }
+                }
                 break;
         }
+    }
+
+    public function getDirs($append)
+    {
+        return array_map(
+            function($a) use ($append) {
+                return $a .= $append;
+            },
+            $this->dirs
+        );
     }
 }
 
