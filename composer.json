@@ -1,5 +1,16 @@
 {
+    "name" : "kingcoyote/indigo",
+    "type" : "library",
+    "description" : "Indigo PHP Framework",
+    "homepage" : "http://github.com/kingcoyote/indigo",
+    "license" : "GPL 3",
+    "authors" : [{
+        "name" : "Steve Phillips",
+        "email" : "steve@stevephillips.me"
+    }],
+    "keywords" : [ "framework" ],
     "require" : {
+        "php" : ">=5.4",
         "twig/twig" : "1.*"
     },
     "autoload" : {
