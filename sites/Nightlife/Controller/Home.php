@@ -13,7 +13,7 @@ class Home extends Indigo\Controller
         ],
         '/home/{id}' => [
             'page' => 'main'
-        ]
+        ],
     ];
 
     public function index($request)
