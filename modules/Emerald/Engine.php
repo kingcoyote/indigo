@@ -1,6 +1,6 @@
 <?php
 
-namespace Indigo\Template;
+namespace Emerald;
 use Indigo\Config;
 
 class Engine implements EngineInterface

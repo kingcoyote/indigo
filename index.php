@@ -36,7 +36,6 @@ try {
     Indigo\Db::init($config);
     Indigo\Db::factory('default')->connect();
 
-    Indigo\Template::registerEngine('default', '\\Indigo\\Template\\Engine');
     Indigo\Template::init($config);
 
     Indigo\Event::init();
