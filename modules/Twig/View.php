@@ -28,7 +28,7 @@ class View implements ViewInterface
 
     public function render()
     {
-        $twig = $this->environment->loadTemplate($this->file . '.twig');
+        $twig = $this->environment->loadTemplate($this->file . '.twig.html');
         return $twig->render($this->vars);
     }
 
