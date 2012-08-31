@@ -8,7 +8,10 @@ use PDO;
 
 class Query implements QueryInterface
 {
+    const QUERY_SELECT = 'select';
+    
     private $pdo;
+    private $queryType;
     private $fields = [];
     private $tables = [];
     private $conditionals = [];
@@ -23,9 +26,13 @@ class Query implements QueryInterface
         $this->pdo = $pdo;
     }
     
-    public function select($field)
+    public function select($field = false)
     {
-        $this->fields[] = $field;
+        $this->queryType = self::QUERY_SELECT;
+
+        if (!$field) {
+            // parse $field into a list of fields
+        }
 
         return $this;
     }
@@ -63,11 +70,7 @@ class Query implements QueryInterface
 
     public function execute()
     {
-        $query = sprintf(
-            'select %s from %s',
-            implode(',', $this->fields),
-            implode(',', $this->tables)
-        );
+        $query = $this->_buildQuery();
 
         return $this->query($query, $this->vars);
     }
@@ -75,14 +78,15 @@ class Query implements QueryInterface
     public function query($query, $args)
     {
         $statement = $this->pdo->prepare($query);
-
-        if ($statement->execute($this->vars)) {
+        
+        if ($statement->execute($args)) {
 
             $data = [];
-            do {
-                $row = $statement->fetch(PDO::FETCH_ASSOC);
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            while ($row) {
                 $data[] = $row;
-            } while ($row);
+                $row = $statement->fetch(PDO::FETCH_ASSOC);
+            };
 
         } else {
             throw new Exception\Db(
@@ -95,6 +99,34 @@ class Query implements QueryInterface
         }
         
         return $data;
+    }
+
+    private function _buildQuery()
+    {
+        switch($this->queryType) {
+            case self::QUERY_SELECT:
+                return $this->_buildQuerySelect();
+                break;
+        }
+    }
+
+    private function _buildQuerySelect()
+    {
+        $query = "select";
+
+        if (count($this->fields) > 0) {
+
+        } else {
+            $query .= " *";
+        }
+
+        $query .= " from";
+
+        foreach ($this->tables as $table) {
+            $query .= ' ' . $table;
+        }
+
+        return $query;
     }
 }
 
