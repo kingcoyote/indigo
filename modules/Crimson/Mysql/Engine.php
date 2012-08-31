@@ -1,12 +1,12 @@
 <?php
 
-namespace Mysql;
+namespace Crimson\Mysql;
 
 use Indigo\Db\EngineInterface;
 use Indigo\Config;
 use Indigo\Exception;
 
-class Mysql implements EngineInterface
+class Engine implements EngineInterface
 {
     private $pdo;
     private $config = [];

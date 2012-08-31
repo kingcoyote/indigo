@@ -1,6 +1,6 @@
 <?php
 
-namespace Mysql;
+namespace Crimson\Mysql;
 
 use Indigo\Db\QueryInterface;
 use Indigo\Exception;

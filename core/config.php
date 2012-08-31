@@ -5,7 +5,7 @@ return [
     'template' => 'twig',
     'modules' => [
         'Twig',
-        'Mysql',
+        'Crimson',
         'Seafoam',
     ]
 ];
