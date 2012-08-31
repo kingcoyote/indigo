@@ -21,7 +21,7 @@ class Engine implements EngineInterface
         );
     }
 
-    public function factory($name)
+    public function createView($name)
     {
         $view = new View($name);
         $view->setEnvironment($this->environment);
