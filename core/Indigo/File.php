@@ -5,10 +5,16 @@ namespace Indigo;
 class File
 {
     private static $sites = [];
+    private static $types = [];
     
     public static function init($site, $name='default')
     {
         self::$sites[$name] = new File($site);
+    }
+
+    public static function registerType($type, callable $callback)
+    {
+        self::$types[$type] = $callback;
     }
 
     public static function factory($name='default')
@@ -37,6 +43,10 @@ class File
 
     public function find($type, $name)
     {
+        if (array_key_exists($type, self::$types)) {
+            return self::$types[$type]($name, $this->dirs);
+        }
+        
         switch (strtolower($type)) {
             case 'controller':
                 $namespaces = [
@@ -69,6 +79,10 @@ class File
                 }
                 break;
         }
+
+        throw new Exception\File(
+            sprintf('File type "%s" has not been initialized', $type)
+        );
     }
 
     public function getDirs($append)
