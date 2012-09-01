@@ -44,7 +44,10 @@ class File
     public function find($type, $name)
     {
         if (array_key_exists($type, self::$types)) {
-            return self::$types[$type]($name, $this->dirs);
+            return call_user_func_array(
+                self::$types[$type],
+                [$name, $this->dirs]
+            );
         }
         
         switch (strtolower($type)) {

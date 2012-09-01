@@ -12,7 +12,7 @@ class View implements ViewInterface
 
     public function __construct($name)
     {
-        $this->file = File::find('emerald_view', $name);
+        $this->file = File::factory()->find('emerald_view', $name);
 
         if (!file_exists($this->file)) {
             throw new Exception\Template(
