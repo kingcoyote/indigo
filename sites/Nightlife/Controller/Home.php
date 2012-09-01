@@ -18,7 +18,7 @@ class Home extends Indigo\Controller
 
     public function index($request)
     {
-        $view = Template::factory()->createView('home');
+        $view = Template::factory('emerald')->createView('home');
         $view->foo = 'foo & stuff';
         $view->faz = 'bar & stuff';
         

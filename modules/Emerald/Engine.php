@@ -2,6 +2,7 @@
 
 namespace Emerald;
 use Indigo\Config;
+use Indigo\Template\EngineInterface;
 
 class Engine implements EngineInterface
 {

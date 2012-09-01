@@ -3,6 +3,7 @@
 namespace Emerald;
 use Indigo\File;
 use Indigo\Exception;
+use Indigo\Template\ViewInterface;
 
 class View implements ViewInterface
 {
@@ -11,7 +12,7 @@ class View implements ViewInterface
 
     public function __construct($name)
     {
-        $this->file = File::find('template', $name);
+        $this->file = File::find('emerald_view', $name);
 
         if (!file_exists($this->file)) {
             throw new Exception\Template(

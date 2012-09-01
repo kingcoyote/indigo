@@ -7,6 +7,7 @@ return [
         'Twig',
         'Crimson',
         'Seafoam',
+        'Emerald',
     ]
 ];
 
