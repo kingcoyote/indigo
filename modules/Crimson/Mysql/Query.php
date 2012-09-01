@@ -9,6 +9,7 @@ use PDO;
 class Query implements QueryInterface
 {
     const QUERY_SELECT = 'select';
+    const QUERY_UPDATE = 'update';
     
     private $pdo;
     private $queryType;
@@ -21,6 +22,9 @@ class Query implements QueryInterface
     ];
     private $vars = [];
 
+    private $updateTables = [];
+    private $updateFields = [];
+
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -32,6 +36,26 @@ class Query implements QueryInterface
 
         if (!$field) {
             // parse $field into a list of fields
+        }
+
+        return $this;
+    }
+
+    public function update($table)
+    {
+        $this->queryType = self::QUERY_UPDATE;
+        $this->updateTables[] = $table;
+
+        return $this;
+    }
+
+    public function set($values)
+    {
+        foreach ($values as $field => $value) {
+            $nonce = sha1($value);
+
+            $this->updateFields[] = "$field = :$nonce";
+            $this->vars[$nonce] = $value;
         }
 
         return $this;
@@ -119,6 +143,10 @@ class Query implements QueryInterface
             case self::QUERY_SELECT:
                 return $this->_buildQuerySelect();
                 break;
+
+            case self::QUERY_UPDATE:
+                return $this->_buildQueryUpdate();
+                break;
         }
     }
 
@@ -138,15 +166,39 @@ class Query implements QueryInterface
             $query .= ' ' . $table;
         }
 
+        $query .= $this->_buildClauseWhere();
+
+        return $query;
+    }
+
+    private function _buildQueryUpdate()
+    {
+        $query = "update ";
+
+        $query .= implode(', ', $this->updateTables);
+
+        $query .= " set ";
+
+        $query .= implode(', ', $this->updateFields);
+
+        $query .= $this->_buildClauseWhere();
+
+        return $query;
+    }
+
+    private function _buildClauseWhere()
+    {
+        $clause = "";
+
         if (count($this->conditionals) > 0) {
-            $query .= " where";
+            $clause .= " where";
 
             foreach ($this->conditionals as $conditional) {
-                $query .= " " . $conditional;
+                $clause .= " " . $conditional;
             }
         }
 
-        return $query;
+        return $clause;
     }
 }
 

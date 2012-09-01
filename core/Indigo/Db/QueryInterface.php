@@ -11,6 +11,9 @@ interface QueryInterface
     public function bind($vars);
     public function execute();
 
+    public function update($table);
+    public function set($values);
+
     public function query($query, $args);
 }
 
