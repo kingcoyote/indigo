@@ -37,7 +37,7 @@ class File
         $this->dirs = [
             INDIGO_DIR . 'sites/' . $site . '/',
             INDIGO_DIR . 'sites/all/',
-            INDIGO_DIR
+            INDIGO_DIR . 'core/',
         ];
     }
 

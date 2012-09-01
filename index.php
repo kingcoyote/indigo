@@ -24,12 +24,13 @@ try {
     $config = Indigo\Config::factory($site);
 
     foreach ($config->get('modules') as $module) {
+        $loader->add($module, Indigo\File::factory()->getDirs('modules'));
 
-        $loader->add($module, Indigo\File::factory()->find('module', $module));
-        
-        if (file_exists(INDIGO_DIR . 'modules/' . $module . '/init.php')) {
-            require_once(INDIGO_DIR . 'modules/' . $module . '/init.php');
-        }
+        $init = $module . "\\Init";
+
+        if (class_exists($init)) {
+            $init::init();
+        } 
     }
 
     // initialize MySQL in index. This will probably eventually go into a module
