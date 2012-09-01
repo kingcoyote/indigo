@@ -1,0 +1,7 @@
+<form method="post" action="/article/{{ article.id }}/save">
+    <label for="article_title">Title</label>
+    <input type="text" id="article_title" name="title" value="{{ article.title }}" />
+    <label for="article_body">Body</label>
+    <textarea name="body" id="article_body">{{ article.body }}</textarea>
+    <input type="submit" value="Save Article" />
+</form>
