@@ -38,7 +38,19 @@ class Article extends Indigo\Controller
 
     public function view($request)
     {
+        $query = Db::factory()->createQuery();
+        $query->select()->from('article')->where('id', '=', $request['args']['id']);
 
+        $articles = $query->execute();
+
+        if ($articles) {
+            $template = Template::factory()->createView('article/view');
+            $template->article = $articles[0];
+
+            return $template->render();
+        } else {
+            return $this->_article_not_found($request);
+        }
     }
 
     public function edit($request)
@@ -47,6 +59,11 @@ class Article extends Indigo\Controller
     }
 
     public function save($request)
+    {
+
+    }
+
+    protected function _article_not_found($request)
     {
 
     }

@@ -44,9 +44,21 @@ class Query implements QueryInterface
         return $this;
     }
 
-    public function where($conditional)
+    public function where($field, $operand, $value)
     {
-        $this->conditionals[] = $conditionals;
+        $nonce = sha1($value);
+
+        switch ($operand)
+        {
+            case '=':
+            case '>':
+            case '>=':
+            case '<':
+            case '<=':
+                $this->conditionals[] = "$field $operand :$nonce";
+                $this->vars[$nonce] = $value;
+                break;
+        }
 
         return $this;
     }
@@ -124,6 +136,14 @@ class Query implements QueryInterface
 
         foreach ($this->tables as $table) {
             $query .= ' ' . $table;
+        }
+
+        if (count($this->conditionals) > 0) {
+            $query .= " where";
+
+            foreach ($this->conditionals as $conditional) {
+                $query .= " " . $conditional;
+            }
         }
 
         return $query;
