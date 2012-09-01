@@ -13,6 +13,10 @@ class Router
         $request['base_url'] = $request['protocol'] . $request['domain'] . $request['folder'];
         $request['query']    = substr($_SERVER['REQUEST_URI'], strlen($request['folder']));
 
+        $request['method'] = $_SERVER['REQUEST_METHOD'];
+        $request['post'] = $_POST;
+        $request['get']  = $_GET;
+
         $request['controller'] = substr(
             $request['query'], 
             0, 
