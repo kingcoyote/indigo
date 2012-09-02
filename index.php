@@ -33,7 +33,6 @@ try {
         } 
     }
 
-    // initialize MySQL in index. This will probably eventually go into a module
     Indigo\Db::init($config);
     Indigo\Db::factory('default')->connect();
 
@@ -57,7 +56,7 @@ try {
         $request = Indigo\Event::trigger('indigo request', $request);
 
         // tell router to dispatch to the controller
-        $page = Indigo\Router::dispatch($request);
+        $$response = Indigo\Router::dispatch($request, $response);
     } catch (Indigo\Exception\Auth $e) {
         $response['http_code'] = '403 Forbidden';    
     } catch (Indigo\Exception\Router $e) {
@@ -68,6 +67,7 @@ try {
 
     // send out headers
     $response = Indigo\Event::trigger('indigo response', $response);
+
     header('HTTP/1.0 ' . $response['http_code']);
     foreach ($response['headers'] as $name => $value) {
         header(sprintf(
@@ -76,6 +76,7 @@ try {
             $value
         ));
     }
+
     // send out content
     echo $response['content'];
 
