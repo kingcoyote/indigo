@@ -16,13 +16,15 @@ class Home extends Indigo\Controller
         ],
     ];
 
-    public function index($request)
+    public function index($request, $response)
     {
         $view = Template::factory()->createView('home');
         $view->foo = 'foo & stuff';
         $view->faz = 'bar & stuff';
         
-        return $view->render();
+        $response['content'] = $view->render();
+
+        return $response;
     }
 
     public function main($request)

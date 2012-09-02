@@ -6,52 +6,7 @@ class Router
 {
     public static function parseRequest(Config $config)
     {
-        $request = array();
-        $request['protocol'] = array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
-        $request['domain']   = $_SERVER['HTTP_HOST'];
-        $request['folder']   = (dirname($_SERVER['SCRIPT_NAME']) == '/' ? null : dirname($_SERVER['SCRIPT_NAME'])) . '/';
-        $request['base_url'] = $request['protocol'] . $request['domain'] . $request['folder'];
-        $request['query']    = substr($_SERVER['REQUEST_URI'], strlen($request['folder']));
-
-        $request['method'] = $_SERVER['REQUEST_METHOD'];
-        $request['post'] = $_POST;
-        $request['get']  = $_GET;
-
-        $request['controller'] = substr(
-            $request['query'], 
-            0, 
-            strstr($request['query'], '/') !== false ? strpos($request['query'], '/') : strlen($request['query'])
-        );
-
-        if ($request['controller'] == '') {
-            $request['controller'] = $config->get('default_controller');
-        }
-
-        $request['query'] = '/' . $request['query'];
-        
-        $class = File::factory()->find('controller', $request['controller']);
-        $request['controller'] = $class;
-
-        $routes = $class::$routes;
-        
-        foreach ($routes as $mask => $route) {
-            if (isset($route['alias'])) {
-                foreach ($route['alias'] as $alias) {
-                    $new_route = $route;
-                    unset($route['alias']);
-                    $routes[$alias] = $new_route;
-                }
-            }
-        }
-
-        foreach ($routes as $mask => $route) {
-            $mask_regex = self::parseMask($mask); 
-            if (preg_match($mask_regex['regex'], $request['query'], $matches)) {
-                $request['route'] = $route;
-                $request['args'] = array_combine($mask_regex['args'], array_splice($matches, 1));
-            }
-        }
-
+        $request = Request::fromServer();
         return $request;
     }
 
@@ -71,13 +26,49 @@ class Router
         ];
     }
 
-    public static function dispatch($request)
+    public static function dispatch($request, $response, $config)
     {
-        $controller = Controller::factory($request['controller']);
-        $page = $request['route']['page'];
+        $controller = substr(
+            $request->get('query'), 
+            0, 
+            strstr($request->get('query'), '/') !== false ? strpos($request->get('query'), '/') : strlen($request->get('query'))
+        );
+
+        if ($controller == '') {
+            $controller = $config->get('default_controller');
+        }
+         
+        $class = File::factory()->find('controller', $controller);
+        $controller = $class;
+
+        $routes = $class::$routes;
+        
+        foreach ($routes as $mask => $route) {
+            if (isset($route['alias'])) {
+                foreach ($route['alias'] as $alias) {
+                    $new_route = $route;
+                    unset($route['alias']);
+                    $routes[$alias] = $new_route;
+                }
+            }
+        }
+
+        foreach ($routes as $mask => $route) {
+            $mask_regex = self::parseMask($mask); 
+            if (preg_match($mask_regex['regex'], $request->get('query'), $matches)) {
+                $args = array_combine($mask_regex['args'], array_splice($matches, 1));
+                break;
+            }
+        }
+        $controller = Controller::factory($controller);
+        $page = $route['page'];
+
+        $request->set('args', $args);
+        $request->set('controller', $controller);
+        $request->set('page', $page);
 
         if (method_exists($controller, $page)) {
-            return $controller->$page($request);
+            return $controller->$page($request, $response);
         } else {
             throw new Exception\Router();
         }

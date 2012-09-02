@@ -56,14 +56,12 @@ try {
         $request = Indigo\Event::trigger('indigo request', $request);
 
         // tell router to dispatch to the controller
-        $$response = Indigo\Router::dispatch($request, $response);
+        $response = Indigo\Router::dispatch($request, $response, $config);
     } catch (Indigo\Exception\Auth $e) {
         $response['http_code'] = '403 Forbidden';    
     } catch (Indigo\Exception\Router $e) {
         $response['http_code'] = '404 Not Found';
     }
-
-    $response['content'] = $page;
 
     // send out headers
     $response = Indigo\Event::trigger('indigo response', $response);
