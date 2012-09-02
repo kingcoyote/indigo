@@ -22,7 +22,7 @@ class Home extends Indigo\Controller
         $view->foo = 'foo & stuff';
         $view->faz = 'bar & stuff';
         
-        $response['content'] = $view->render();
+        $response->set('content', $view->render());
 
         return $response;
     }

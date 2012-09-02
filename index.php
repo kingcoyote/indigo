@@ -43,10 +43,7 @@ try {
     // earliest possible event
     Indigo\Event::trigger('indigo start');
 
-    $response = array(
-        'http_code' => '200 OK',
-        'headers'   => array(),
-    );
+    $response = new Indigo\Response;
 
     try {
         // parse request
@@ -58,16 +55,16 @@ try {
         // tell router to dispatch to the controller
         $response = Indigo\Router::dispatch($request, $response, $config);
     } catch (Indigo\Exception\Auth $e) {
-        $response['http_code'] = '403 Forbidden';    
+        $response->set('http_code', '403 Forbidden');    
     } catch (Indigo\Exception\Router $e) {
-        $response['http_code'] = '404 Not Found';
+        $response->set('http_code', '404 Not Found');
     }
 
     // send out headers
     $response = Indigo\Event::trigger('indigo response', $response);
 
-    header('HTTP/1.0 ' . $response['http_code']);
-    foreach ($response['headers'] as $name => $value) {
+    header('HTTP/1.0 ' . $response->get('http_code'));
+    foreach ($response->getHeaders() as $name => $value) {
         header(sprintf(
             '%s: %s',
             $name,
@@ -76,7 +73,7 @@ try {
     }
 
     // send out content
-    echo $response['content'];
+    echo $response->get('content');
 
     // latest possible event
     Indigo\Event::trigger('indigo end');
