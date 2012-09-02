@@ -92,7 +92,7 @@ class Article extends Indigo\Controller
 
         // this line is absolutely not staying. i just can't yet decide how i want to handle
         // page redirects
-        $response->redirect('article');
+        $response->redirect('/article');
     }
 
     protected function _article_not_found($request)
