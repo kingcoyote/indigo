@@ -13,6 +13,9 @@ class Article extends Indigo\Controller
         'article' => [
             'page' => 'view_all'
         ],
+        'article/add' => [
+            'page' => 'add'
+        ],
         'article/{id}' => [
             'page' => 'view'
         ],
@@ -24,6 +27,7 @@ class Article extends Indigo\Controller
         ],
     ];
 
+    // article
     public function view_all($request, $response)
     {
         $query = Db::factory()->createQuery();
@@ -39,6 +43,7 @@ class Article extends Indigo\Controller
         return $response;
     }
 
+    // article/{id}
     public function view($request, $response)
     {
         $query = Db::factory()->createQuery();
@@ -59,6 +64,7 @@ class Article extends Indigo\Controller
         return $response;
     }
 
+    // article/{id}/edit
     public function edit($request, $response)
     {
         $query = Db::factory()->createQuery();
@@ -79,6 +85,7 @@ class Article extends Indigo\Controller
         return $response;
     }
 
+    // article/{id}/save
     public function save($request, $response)
     {
         if ($request->get('method') != 'POST') {
@@ -93,6 +100,22 @@ class Article extends Indigo\Controller
         // this line is absolutely not staying. i just can't yet decide how i want to handle
         // page redirects
         $response->redirect('/article');
+    }
+
+    // article/new
+    public function add($request, $response)
+    {
+        if ($request->get('method') === 'GET') {
+            $template = Indigo\Template::factory()->createView('article/new');
+            $response->set('content', $template->render());
+        } else {
+            $query = Indigo\Db::factory()->createQuery();
+            $query->insert('article')->values($request->get('post'));
+            $article_id = $query->execute();
+
+            $response->redirect('/article/' . $article_id);
+        }
+        return $response;
     }
 
     protected function _article_not_found($request)
