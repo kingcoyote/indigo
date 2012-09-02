@@ -33,7 +33,6 @@ class Router
             0, 
             strstr($request->get('query'), '/') !== false ? strpos($request->get('query'), '/') : strlen($request->get('query'))
         );
-
         if ($controller == '') {
             $controller = $config->get('default_controller');
         }
@@ -42,7 +41,8 @@ class Router
         $controller = $class;
 
         $routes = $class::$routes;
-        
+        $args = [];
+
         foreach ($routes as $mask => $route) {
             if (isset($route['alias'])) {
                 foreach ($route['alias'] as $alias) {
@@ -68,7 +68,13 @@ class Router
         $request->set('page', $page);
 
         if (method_exists($controller, $page)) {
-            return $controller->$page($request, $response);
+            $response = $controller->$page($request, $response);
+            
+            if (! ($response instanceof Indigo\Response)) {
+                throw new Exception\Router();
+            }
+
+            return $response;
         } else {
             throw new Exception\Router();
         }

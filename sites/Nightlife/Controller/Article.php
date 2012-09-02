@@ -10,21 +10,21 @@ use Indigo\Exception;
 class Article extends Indigo\Controller
 {
     public static $routes = [
-        '/article' => [
+        'article' => [
             'page' => 'view_all'
         ],
-        '/article/{id}' => [
+        'article/{id}' => [
             'page' => 'view'
         ],
-        '/article/{id}/edit' => [
+        'article/{id}/edit' => [
             'page' => 'edit',
         ],
-        '/article/{id}/save' => [
+        'article/{id}/save' => [
             'page' => 'save'
         ],
     ];
 
-    public function view_all($request)
+    public function view_all($request, $response)
     {
         $query = Db::factory()->createQuery();
         $query->select()->from('article');
@@ -34,13 +34,15 @@ class Article extends Indigo\Controller
         $template = Template::factory()->createView('article/all');
         $template->articles = $articles;
 
-        return $template->render();
+        $response->set('content', $template->render());
+
+        return $response;
     }
 
-    public function view($request)
+    public function view($request, $response)
     {
         $query = Db::factory()->createQuery();
-        $query->select()->from('article')->where('id', '=', $request['args']['id']);
+        $query->select()->from('article')->where('id', '=', $request->get('args')['id']);
 
         $articles = $query->execute();
 
@@ -48,16 +50,19 @@ class Article extends Indigo\Controller
             $template = Template::factory()->createView('article/view');
             $template->article = $articles[0];
 
-            return $template->render();
+            $response->set('content', $template->render());
         } else {
-            return $this->_article_not_found($request);
+            $response->set('content', $this->_article_not_found($request));
+            $response->set('http_code', $response::HTTP_404);
         }
+
+        return $response;
     }
 
-    public function edit($request)
+    public function edit($request, $response)
     {
         $query = Db::factory()->createQuery();
-        $query->select()->from('article')->where('id', '=', $request['args']['id']);
+        $query->select()->from('article')->where('id', '=', $request->get('args')['id']);
 
         $articles = $query->execute();
 
@@ -65,31 +70,33 @@ class Article extends Indigo\Controller
             $template = Template::factory()->createView('article/edit');
             $template->article = $articles[0];
 
-            return $template->render();
+            $response->set('content', $template->render());
         } else {
-            return $this->_article_not_found($request);
+            $response->set('content', $this->_article_not_found($request));
+            $response->set('http_code', $response::HTTP_404);
         }
+
+        return $response;
     }
 
-    public function save($request)
+    public function save($request, $response)
     {
-        if ($request['method'] != 'POST') {
+        if ($request->get('method') != 'POST') {
             throw new Exception\Auth();
         }
 
         $query = Db::factory()->createQuery();
-        $query->update('article')->set($request['post'])->where('id', '=', $request['args']['id']);
+        $query->update('article')->set($request->get('post'))->where('id', '=', $request->get('args')['id']);
 
         $query->execute(); 
 
         // this line is absolutely not staying. i just can't yet decide how i want to handle
         // page redirects
-        header('Location: /article/' . $request['args']['id']);
-        die;
+        $response->redirect('article');
     }
 
     protected function _article_not_found($request)
     {
-
+        return 'The requested article does not exist';
     }
 }

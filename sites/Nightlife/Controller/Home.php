@@ -7,11 +7,11 @@ use Indigo\Template;
 class Home extends Indigo\Controller
 {
     public static $routes = [
-        '/' => [
+        '' => [
             'page' => 'index',
             'alias' => ['/home']
         ],
-        '/home/{id}' => [
+        'home/{id}' => [
             'page' => 'main'
         ],
     ];
@@ -27,9 +27,11 @@ class Home extends Indigo\Controller
         return $response;
     }
 
-    public function main($request)
+    public function main($request, $response)
     {
-        var_dump($request['args']);
+        var_dump($request->get('args'));
+
+        return $response;
     }
 }
 
