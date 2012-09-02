@@ -10,6 +10,7 @@ class Query implements QueryInterface
 {
     const QUERY_SELECT = 'select';
     const QUERY_UPDATE = 'update';
+    const QUERY_INSERT = 'insert';
     
     private $pdo;
     private $queryType;
@@ -49,12 +50,33 @@ class Query implements QueryInterface
         return $this;
     }
 
+    public function insert($table)
+    {
+        $this->queryType = self::QUERY_INSERT;
+        $this->insertTable = $table;
+
+        return $this;
+    }
+
     public function set($values)
     {
         foreach ($values as $field => $value) {
             $nonce = sha1($value);
 
             $this->updateFields[] = "$field = :$nonce";
+            $this->vars[$nonce] = $value;
+        }
+
+        return $this;
+    }
+
+    public function values($values)
+    {
+        foreach ($values as $field => $value) {
+            $nonce = sha1($value);
+
+            $this->insertFields[] = $field;
+            $this->insertValues[] = ":$nonce";
             $this->vars[$nonce] = $value;
         }
 
@@ -117,12 +139,20 @@ class Query implements QueryInterface
         
         if ($statement->execute($args)) {
 
-            $data = [];
-            $row = $statement->fetch(PDO::FETCH_ASSOC);
-            while ($row) {
-                $data[] = $row;
-                $row = $statement->fetch(PDO::FETCH_ASSOC);
-            };
+            switch ($this->queryType) {
+                case self::QUERY_SELECT:
+                    $data = [];
+                    $row = $statement->fetch(PDO::FETCH_ASSOC);
+                    while ($row) {
+                        $data[] = $row;
+                        $row = $statement->fetch(PDO::FETCH_ASSOC);
+                    };
+                    break;
+
+                case self::QUERY_INSERT:
+                    return $this->pdo->lastInsertId();
+                    break;
+            }
 
         } else {
             throw new Exception\Db(
@@ -146,6 +176,10 @@ class Query implements QueryInterface
 
             case self::QUERY_UPDATE:
                 return $this->_buildQueryUpdate();
+                break;
+
+            case self::QUERY_INSERT:
+                return $this->_buildQueryInsert();
                 break;
         }
     }
@@ -182,6 +216,15 @@ class Query implements QueryInterface
         $query .= implode(', ', $this->updateFields);
 
         $query .= $this->_buildClauseWhere();
+
+        return $query;
+    }
+
+    private function _buildQueryInsert()
+    {
+        $query = "insert into " . $this->insertTable . " (";
+        $query .= implode(',', $this->insertFields) . ') values (';
+        $query .= implode(',', $this->insertValues) . ')';
 
         return $query;
     }
