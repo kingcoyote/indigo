@@ -9,7 +9,7 @@ Indigo
 Assertion
 --------------------------------------------------------------------------------
 
-A highly modular, minimalistic PHP 5.3+ framework that manages the essential 
+A highly modular, minimalistic PHP 5.4+ framework that manages the essential 
 functions of a web request, without forcing design constraints and allowing
 any functionality that can be overridden to be overridden.
 
@@ -27,7 +27,9 @@ It takes heavy inspiration from Drupal and Kohana in its overall structure, but
 aims to reduce the overhead of Drupal and improve the flexibility of Kohana. The
 end result aims to be a minimalistic MVC that handles basic form validation, 
 user login, permissions, GET/POST processing and other basic features, all 
-without forcing any design constraints on the end user.
+without forcing any design constraints on the end user. However, to keep the
+proejct minimalistic, most of these extra features will be bundled as modules
+that can be enabled or disabled at will.
 
 Goals
 --------------------------------------------------------------------------------
@@ -50,8 +52,10 @@ be closely monitored.
    a robust query builder.  The models will also employ my magic column 
    pattern for dynamic member properties. In addition, the models will 
    include field validation as a member property to ensure data passes 
-   validation.
-3. Incorporate user logins and sessions into the core, while not forcing any 
+   validation. This will be the Seafoam module and can be replaced by any
+   ORM that a developer desires, so long as an appropriate adapter is
+   created.
+3. Incorporate user logins and sessions as a module, while not forcing any 
    particulars such as the HTML of the login form, the hashing method for the 
    passwords (while supporting both bcrypt and PBKDF2 by default), or even the 
    table name/fields. User permissions will also be handled in a style 
