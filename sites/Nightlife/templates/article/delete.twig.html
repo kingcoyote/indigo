@@ -1,0 +1,6 @@
+<h1>Delete</h1>
+<p>Are you sure you would like to delete this article?</p>
+<form method="post" action="/article/{{ article.id}}/delete">
+    <input type="hidden" name="id" value="{{ article.id }}" />
+    <input type="submit" value="Confirm" />
+</form>

@@ -25,6 +25,9 @@ class Article extends Indigo\Controller
         'article/{id}/save' => [
             'page' => 'save'
         ],
+        'article/{id}/delete' => [
+            'page' => 'delete'
+        ],
     ];
 
     // article
@@ -114,6 +117,27 @@ class Article extends Indigo\Controller
             $article_id = $query->execute();
 
             $response->redirect('/article/' . $article_id);
+        }
+        return $response;
+    }
+
+    public function delete($request, $response)
+    {
+                
+        if ($request->get('method') === 'GET') {
+            $template = Indigo\Template::factory()->createView('article/delete');
+            
+            $template->article = Indigo\Db::factory()->createQuery()
+                ->select()->from('article')->where('id', '=', $request->get('args')[id])
+                ->execute()[0];
+
+            $response->set('content', $template->render());
+        } else {
+            Indigo\Db::factory()->createQuery()
+                ->delete('article')->where('id', '=', $request->get('post')['id'])
+                ->execute();
+
+            $response->redirect('/article');
         }
         return $response;
     }
