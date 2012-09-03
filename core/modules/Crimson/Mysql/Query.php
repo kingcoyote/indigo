@@ -11,6 +11,7 @@ class Query implements QueryInterface
     const QUERY_SELECT = 'select';
     const QUERY_UPDATE = 'update';
     const QUERY_INSERT = 'insert';
+    const QUERY_DELETE = 'delete';
     
     private $pdo;
     private $queryType;
@@ -25,6 +26,11 @@ class Query implements QueryInterface
 
     private $updateTables = [];
     private $updateFields = [];
+
+    private $insertTable;
+    private $insertFields = [];
+    
+    private $deleteTable;
 
     public function __construct(PDO $pdo)
     {
@@ -54,6 +60,14 @@ class Query implements QueryInterface
     {
         $this->queryType = self::QUERY_INSERT;
         $this->insertTable = $table;
+
+        return $this;
+    }
+
+    public function delete($table)
+    {
+        $this->queryType = self::QUERY_DELETE;
+        $this->deleteTable = $table;
 
         return $this;
     }
@@ -181,6 +195,10 @@ class Query implements QueryInterface
             case self::QUERY_INSERT:
                 return $this->_buildQueryInsert();
                 break;
+
+            case self::QUERY_DELETE:
+                return $this->_buildQueryDelete();
+                break;
         }
     }
 
@@ -229,6 +247,13 @@ class Query implements QueryInterface
         return $query;
     }
 
+    private function _buildQueryDelete()
+    {
+        $query = "delete from " . $this->deleteTable . $this->_buildClauseWhere();
+
+        return $query;
+    }
+    
     private function _buildClauseWhere()
     {
         $clause = "";
