@@ -33,10 +33,10 @@ try {
         } 
     }
 
-    Indigo\Db::init($config);
+    Indigo\Db::init($config->get('db')['engine'], $config);
     Indigo\Db::factory('default')->connect();
 
-    Indigo\Template::init($config);
+    Indigo\Template::init($config->get('template'), $config);
 
     Indigo\Event::init();
 
