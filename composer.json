@@ -10,7 +10,8 @@
     "keywords" : [ "framework" ],
     "require" : {
         "php" : ">=5.4",
-        "twig/twig" : "1.*"
+        "twig/twig" : "1.*",
+        "kingcoyote/domi" : "1.2.0"
     },
     "autoload" : {
         "psr-0": {

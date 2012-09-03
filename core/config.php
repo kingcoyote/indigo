@@ -8,6 +8,7 @@ return [
         'Crimson',
         'Seafoam',
         'Emerald',
+        'Domi'
     ]
 ];
 

@@ -11,6 +11,9 @@ class Home extends Indigo\Controller
             'page' => 'index',
             'alias' => ['/home']
         ],
+        'home/domi' => [
+            'page' => 'domi',
+        ],
         'home/{id}' => [
             'page' => 'main'
         ],
@@ -30,6 +33,20 @@ class Home extends Indigo\Controller
     public function main($request, $response)
     {
         var_dump($request->get('args'));
+
+        return $response;
+    }
+
+    public function domi($request, $response)
+    {
+        $domiConfig = new Indigo\Config();
+        $domiConfig->set('template', 'domi');
+        Indigo\Template::init($domiConfig, 'domi');
+
+        $view = Indigo\Template::factory('domi')->createView('domi');
+        $view->foo = 'bar';
+
+        $response->set('content', $view->render());
 
         return $response;
     }
