@@ -4,6 +4,7 @@ return [
     'charset' => 'utf8',
     'template' => 'twig',
     'model' => 'seafoam',
+    'database' => 'crimson_mysql',
     'modules' => [
         'Twig',
         'Crimson',
@@ -11,7 +12,7 @@ return [
         'Emerald',
         'Domi'
     ],
-    'db' => [
+    'crimson' => [
         'engine'   => 'mysql',
         'host'     => 'localhost',
         'port'     => '3306',
@@ -19,7 +20,6 @@ return [
         'user'     => 'indigo',
         'pass'     => 'indigo',
     ],
-    'theme' => 'indigo',
     'default_controller' => 'home',
 ];
 

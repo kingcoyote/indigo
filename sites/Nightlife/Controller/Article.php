@@ -49,14 +49,11 @@ class Article extends Indigo\Controller
     // article/{id}
     public function view($request, $response)
     {
-        $query = Db::factory()->createQuery();
-        $query->select()->from('article')->where('id', '=', $request->get('args')['id']);
+        $article = Indigo\Model::factory()->fetch('Nightlife\\Model\\Article', $request->get('args')['id']);
 
-        $articles = $query->execute();
-
-        if ($articles) {
+        if ($article) {
             $template = Template::factory()->createView('article/view');
-            $template->article = $articles[0];
+            $template->article = $article;
 
             $response->set('content', $template->render());
         } else {

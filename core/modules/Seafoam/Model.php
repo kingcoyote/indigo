@@ -1,27 +1,25 @@
 <?php
 
 namespace Seafoam;
+use Indigo\Model\ModelInterface;
+use Indigo\Db\EngineInterface as DbEngine;
 
-abstract class Model
+abstract class Model implements ModelInterface
 {
-    private $table;
-    private $primary_key;
+    protected $table;
+    protected $primary_key = 'id';
     private $columns;
     private $loaded;
     private $related;
+    private $db;
     
-    public static function factory($name, $id = false)
+    public function __construct(Engine $engine, $id = false)
     {
-        // if no table exists with that name
-            // throw model exception
+        $this->db =& $engine->db;
 
-        return new Model($name, $id);
-    }
-
-    public function __construct($name, $id = false)
-    {
-        // set table name
-        // set primary key name
+        if ($id !== false) {
+            $this->load($id);
+        }
     }
 
     public function save()
@@ -64,12 +62,13 @@ abstract class Model
         // set loaded
     }
 
-    public function load()
+    public function load($id)
     {
-        // build sql query
-        // execute
-        // store data
-        // set loaded
+        $query = $this->db->createQuery()
+            ->select()->from($this->table)->where($this->primary_key, '=', $id);
+
+        $this->columns = $query->execute()[0];
+        $this->loaded = true;
     }
 
     private function delete()
@@ -111,10 +110,15 @@ abstract class Model
             // cache it
             // return it
         // else if it is a column
-            // return it
+            return $this->columns[$name];
         // else
             // throw model exception
             
+    }
+
+    public function __isset($name)
+    {
+        return array_key_exists($name, $this->columns);
     }
 
     public function has($object)

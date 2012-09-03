@@ -14,7 +14,7 @@ class Engine implements EngineInterface
 
     public function __construct(Config $config)
     {
-        $db = $config->get('db');
+        $db = $config->get('crimson');
         
         $this->config['dsn']  = sprintf(
             "mysql:dbname=%s;host=%s",

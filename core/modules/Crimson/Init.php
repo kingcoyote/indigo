@@ -8,7 +8,7 @@ class Init
 {
     public static function init()
     {
-        Db::registerEngine('mysql', 'Crimson\\Mysql\\Engine');
+        Db::registerEngine('crimson_mysql', 'Crimson\\Mysql\\Engine');
     }
 }
 
