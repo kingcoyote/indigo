@@ -70,7 +70,7 @@ class Router
         if (method_exists($controller, $page)) {
             $response = $controller->$page($request, $response);
             
-            if (! ($response instanceof Indigo\Response)) {
+            if (! ($response instanceof Response)) {
                 throw new Exception\Router();
             }
 

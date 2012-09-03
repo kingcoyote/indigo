@@ -43,7 +43,7 @@ try {
     // earliest possible event
     Indigo\Event::trigger('indigo start');
 
-    $response = new Indigo\Response;
+    $response = new Indigo\Response();
 
     try {
         // parse request
